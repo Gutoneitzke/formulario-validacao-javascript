@@ -45,9 +45,16 @@
             background-color: #181818;
             color: #fff;
             transition: .3s;
+            width: 100%;
+            box-sizing: border-box;
         }
         .inputs:focus{
             border: 2px solid #9333FF;
+        }
+        .span-required{
+            margin-top: 3px;
+            font-size: 12px;
+            color: #e63636;
         }
         .box-select{
             display: flex;
@@ -75,10 +82,22 @@
     <div class="content">
         <h1>Formulário 🔥</h1>
         <form id="formulario" method="POST">
-            <input class="inputs required" type="text" id="nome" name="nome" placeholder="Digite seu nome" oninput="nameValidate()">
-            <input class="inputs required" type="email" id="email" name="email" placeholder="Digite seu melhor email" oninput="emailValidate()">
-            <input class="inputs required" type="password" id="senha" name="senha" placeholder="Senha" oninput="mainPasswordValidate()">
-            <input class="inputs required" type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Repita a sua senha" oninput="comparePassword()">
+            <div>
+                <input class="inputs required" type="text" id="nome" name="nome" placeholder="Digite seu nome" oninput="nameValidate()">
+                <span class="span-required"></span>
+            </div>
+            <div>
+                <input class="inputs required" type="email" id="email" name="email" placeholder="Digite seu melhor email" oninput="emailValidate()">
+                <span class="span-required"></span>
+            </div>
+            <div>
+                <input class="inputs required" type="password" id="senha" name="senha" placeholder="Senha" oninput="mainPasswordValidate()">
+                <span class="span-required"></span>
+            </div>
+            <div>
+                <input class="inputs required" type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Repita a sua senha" oninput="comparePassword()">
+                <span class="span-required"></span>
+            </div>
             <textarea class="inputs required" id="descricao" name="descricao" cols="25" rows="10" placeholder="Fale um pouco sobre você..."></textarea>
             <p>Sexo:</p>
             <div class="box-select">
@@ -117,71 +136,126 @@
             <button type="submit">Enviar</button>
         </form>
     </div>
-</body>
+<!-- Code injected by live-server -->
+<script type="text/javascript">
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script></body>
 <script>
     const form       = document.getElementById('formulario');
     const campos     = document.querySelectorAll('.required');
+    const spans      = document.querySelectorAll('.span-required');
     const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    const messages   = [
+        'Nome é obrigatório',
+        'Email é obrigatório',
+        'Digite uma senha com no mínimo 8 caracteres',
+        'Senhas devem ser compatíveis'
+    ];
+
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        removeBorder();
+        removeError();
         nameValidate()
         emailValidate();
         mainPasswordValidate();
         comparePassword();
     });
-    function setDangerBorder(index){
+
+    function setError(index,message){
         campos[index].style.border = '2px solid #e63636';
+        spans[index].style.display = 'block';
+        spans[index].innerHTML = message;
     }
-    function removeBorder(index){
+
+    function removeError(index){
         if(!index && index != 0)
         {
             for(var i = 0; i < campos.length-1; i++)
             {
                 campos[i].style.border = '';
+                spans[i].style.display = 'none';
             }
         }
         else
         {
-            campos[index].style.border = ''
+            campos[index].style.border = '';
+            spans[index].style.display = 'none';
         }
     }
+
     function nameValidate(){
         if(campos[0].value.length < 3)
         {
-            setDangerBorder(0);
+            setError(0,messages[0]);
             return false;
         }
-        removeBorder(0);
+        removeError(0);
         return true;
     }
+
     function emailValidate(){
         if(!emailRegex.test(campos[1].value))
         {
-            setDangerBorder(1);
+            setError(1,messages[1]);
             return false;
         }
-        removeBorder(1);
+        removeError(1);
         return true;
     }
+
     function mainPasswordValidate(){
         if(campos[2].value.length < 8)
         {
-            setDangerBorder(2);
+            setError(2,messages[2]);
             return false;
         }
-        removeBorder(2);
+        removeError(2);
         comparePassword();
         return true;
     }
+
     function comparePassword(){
         if(campos[2].value == campos[3].value && campos[3].value.length >= 8)
         {
-            removeBorder(3);
+            removeError(3);
         }
         else
         {
-            setDangerBorder(3);
+            setError(3,messages[3]);
         }
     }
 </script>
