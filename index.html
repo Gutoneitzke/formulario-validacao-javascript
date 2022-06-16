@@ -6,14 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Validation</title>
     <style>
+        :root{
+            --color-white: #fff;
+            --color-red: #e63636;
+            --color-dark1: #181818;
+            --color-dark2: #1e1e1e;
+            --color-purple1: #9333FF;
+            --color-purple2: indigo;
+        }
         *{
             margin: 0;
             padding: 0;
         }
         body{
             font-family: Arial, Helvetica, sans-serif;
-            background-color: #181818;
-            color: #fff;
+            background-color: var(--color-dark1);
+            color: var(--color-white);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -22,7 +30,7 @@
             gap: 2rem;
         }
         .content{
-            background-color: #1e1e1e;
+            background-color: var(--color-dark2);
             padding: 2rem;
             border-radius: 10px;
             /* mostrar primeiro apenas o width */
@@ -41,20 +49,20 @@
             padding: 8px 5px;
             outline: none;
             border-radius: 5px;
-            border: 2px solid #181818;
-            background-color: #181818;
-            color: #fff;
+            border: 2px solid var(--color-dark1);
+            background-color: var(--color-dark1);
+            color: var(--color-white);
             transition: .3s;
             width: 100%;
             box-sizing: border-box;
         }
         .inputs:focus{
-            border: 2px solid #9333FF;
+            border: 2px solid var(--color-purple1);
         }
         .span-required{
-            margin-top: 3px;
+            margin: 3px 0 0 1px;
             font-size: 12px;
-            color: #e63636;
+            color: var(--color-red);
         }
         .box-select{
             display: flex;
@@ -68,13 +76,13 @@
             border: none;
             border-radius: 5px;
             margin-top: 1rem;
-            background-color: indigo;
-            color: #fff;
+            background-color: var(--color-purple2);
+            color: var(--color-white);
             cursor: pointer;
             transition: .3s;
         }
         button[type="submit"]:hover{
-            background-color: #9333FF;
+            background-color: var(--color-purple1);
         }
     </style>
 </head>
