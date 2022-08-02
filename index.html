@@ -4,109 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validation</title>
-    <style>
-        :root{
-            --color-white: #fff;
-            --color-red: #e63636;
-            --color-dark1: #181818;
-            --color-dark2: #1e1e1e;
-            --color-purple1: #9333FF;
-            --color-purple2: indigo;
-        }
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        body{
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: var(--color-dark1);
-            color: var(--color-white);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            gap: 2rem;
-        }
-        .content{
-            background-color: var(--color-dark2);
-            padding: 2rem;
-            border-radius: 10px;
-            /* mostrar primeiro apenas o width */
-            min-width: 30%;
-        }
-        h1{
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-        .content form{
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .inputs{
-            padding: 8px 5px;
-            outline: none;
-            border-radius: 5px;
-            border: 2px solid var(--color-dark1);
-            background-color: var(--color-dark1);
-            color: var(--color-white);
-            transition: .3s;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .inputs:focus{
-            border: 2px solid var(--color-purple1);
-        }
-        .span-required{
-            margin: 3px 0 0 1px;
-            font-size: 12px;
-            color: var(--color-red);
-        }
-        .box-select{
-            display: flex;
-            justify-content: space-evenly;
-            font-weight: bold;
-        }
-        button[type="submit"]{
-            padding: 1rem;
-            font-size: 1rem;
-            outline: none;
-            border: none;
-            border-radius: 5px;
-            margin-top: 1rem;
-            background-color: var(--color-purple2);
-            color: var(--color-white);
-            cursor: pointer;
-            transition: .3s;
-        }
-        button[type="submit"]:hover{
-            background-color: var(--color-purple1);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <title>Formulário GN</title>
 </head>
 <body>
     <div class="content">
         <h1>Formulário 🔥</h1>
-        <form id="formulario" method="POST">
+        <form id="form">
             <div>
-                <input class="inputs required" type="text" id="nome" name="nome" placeholder="Digite seu nome" oninput="nameValidate()">
-                <span class="span-required"></span>
+                <input type="text" placeholder="Digite seu nome" class="inputs required" oninput="nameValidate()">
+                <span class="span-required">Nome deve ter no mínimo 3 caracteres</span>
             </div>
             <div>
-                <input class="inputs required" type="email" id="email" name="email" placeholder="Digite seu melhor email" oninput="emailValidate()">
-                <span class="span-required"></span>
+                <input type="email" placeholder="Digite seu melhor email" class="inputs required" oninput="emailValidate()">
+                <span class="span-required">Digite um email válido</span>
             </div>
             <div>
-                <input class="inputs required" type="password" id="senha" name="senha" placeholder="Senha" oninput="mainPasswordValidate()">
-                <span class="span-required"></span>
+                <input type="password" placeholder="Senha" class="inputs required" oninput="mainPasswordValidate()">
+                <span class="span-required">Digite uma senha com no mínimo 8 caracteres</span>
             </div>
             <div>
-                <input class="inputs required" type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Repita a sua senha" oninput="comparePassword()">
-                <span class="span-required"></span>
+                <input type="password" placeholder="Repita a sua senha" class="inputs required" oninput="comparePassword()">
+                <span class="span-required">Senhas devem ser compatíveis</span>
             </div>
-            <textarea class="inputs required" id="descricao" name="descricao" cols="25" rows="10" placeholder="Fale um pouco sobre você..."></textarea>
+            <textarea class="inputs" name="descricao" id="descricao" cols="25" rows="10" placeholder="Fale um pouco sobre você..."></textarea>
             <p>Sexo:</p>
             <div class="box-select">
                 <div>
@@ -125,19 +46,19 @@
             <p>Quais suas experiências ?</p>
             <div class="box-select">
                 <div>
-                    <input type="checkbox" id="html" value="html" name="experiencia">
+                    <input type="checkbox" id="html" value="html" name="experiencias">
                     <label for="html">Html</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="css" value="css" name="experiencia">
+                    <input type="checkbox" id="css" value="css" name="experiencias">
                     <label for="css">Css</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="javascript" value="javascript" name="experiencia">
-                    <label for="javascript">JavaScript</label>
+                    <input type="checkbox" id="js" value="js" name="experiencias">
+                    <label for="js">JavaScript</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="php" value="php" name="experiencia">
+                    <input type="checkbox" id="php" value="php" name="experiencias">
                     <label for="php">PHP</label>
                 </div>
             </div>
@@ -146,77 +67,61 @@
     </div>
 </body>
 <script>
-    const form       = document.getElementById('formulario');
-    const campos     = document.querySelectorAll('.required');
-    const spans      = document.querySelectorAll('.span-required');
+    const form   = document.getElementById('form');
+    const campos = document.querySelectorAll('.required');
+    const spans  = document.querySelectorAll('.span-required');
     const emailRegex = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-    const messages   = [
-        'Nome deve ter no mínimo 3 caracteres',
-        'Digite um email válido',
-        'Digite uma senha com no mínimo 8 caracteres',
-        'Senhas devem ser compatíveis'
-    ];
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        removeError();
-        nameValidate()
+        nameValidate();
         emailValidate();
         mainPasswordValidate();
         comparePassword();
     });
 
-    function setError(index,message){
+    function setError(index){
         campos[index].style.border = '2px solid #e63636';
         spans[index].style.display = 'block';
-        spans[index].innerHTML = message;
     }
 
     function removeError(index){
-        if(!index && index != 0)
-        {
-            for(var i = 0; i < campos.length-1; i++)
-            {
-                campos[i].style.border = '';
-                spans[i].style.display = 'none';
-            }
-        }
-        else
-        {
-            campos[index].style.border = '';
-            spans[index].style.display = 'none';
-        }
+        campos[index].style.border = '';
+        spans[index].style.display = 'none';
     }
 
     function nameValidate(){
         if(campos[0].value.length < 3)
         {
-            setError(0,messages[0]);
-            return false;
+            setError(0);
         }
-        removeError(0);
-        return true;
+        else
+        {
+            removeError(0);
+        }
     }
 
     function emailValidate(){
         if(!emailRegex.test(campos[1].value))
         {
-            setError(1,messages[1]);
-            return false;
+            setError(1);
         }
-        removeError(1);
-        return true;
+        else
+        {
+            removeError(1);
+        }
     }
 
     function mainPasswordValidate(){
         if(campos[2].value.length < 8)
         {
-            setError(2,messages[2]);
-            return false;
+            setError(2);
         }
-        removeError(2);
-        comparePassword();
-        return true;
+        else
+        {
+            removeError(2);
+            comparePassword();
+        }
     }
 
     function comparePassword(){
@@ -226,8 +131,9 @@
         }
         else
         {
-            setError(3,messages[3]);
+            setError(3);
         }
     }
+
 </script>
 </html>
